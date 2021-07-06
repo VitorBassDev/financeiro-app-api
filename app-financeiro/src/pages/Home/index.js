@@ -1,48 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import './index.css'
-
+import { Container, ConteudoTitulo, Titulo, ButtomSuccess, BotaoAcao, AnteriorProximo, ButtomPrimary, Table, TextDanger, TextSuccess, Background}
+from '../../styles/custom_adm';
+import  './index.css'
 
 export const Home = () => {
 
-    const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
 
-    var dataAtual = new Date();
-    var ano = dataAtual.getFullYear();
-    var mes = dataAtual.getMonth() + 1;
-    //console.log(mes + "/" + ano);
+  var dataAtual = new Date();
+  var ano = dataAtual.getFullYear();
+  var mes = dataAtual.getMonth() + 1;
+  //console.log(mes + "/" + ano);
 
-    const [dataView, setDataView] = useState({
-        ano,
-        mes
+  const [dataView, setDataView] = useState({
+      ano,
+      mes
+  });
+
+  const anterior = async () => {
+    if (dataView.mes === 1) {
+    setDataView({
+        ano: dataView.ano - 1,
+        mes: 12
     });
-
-    const anterior = async () => {
-        if (dataView.mes === 1) {
-            setDataView({
-                ano: dataView.ano - 1,
-                mes: 12
-            });
-        } else {
-            setDataView({
-                ano: dataView.ano,
-                mes: dataView.mes - 1
-            });
-        }
-    };
-
-    const proximo = async () => {
-        if (dataView.mes === 12) {
-            setDataView({
-                ano: dataView.ano + 1,
-                mes: 1
-            })
-        } else {
-            setDataView({
-                ano: dataView.ano,
-                mes: dataView.mes + 1
-            })
-        }
+    } else {
+      setDataView({
+        ano: dataView.ano,
+        mes: dataView.mes - 1
+      });
     }
+  };
+
+  const proximo = async () => {
+    if (dataView.mes === 12) {
+      setDataView({
+          ano: dataView.ano + 1,
+          mes: 1
+      })
+    } else {
+      setDataView({
+          ano: dataView.ano,
+          mes: dataView.mes + 1
+      })
+    }
+  }
 
     const listarExtrato = async e => {
         var valores = [
@@ -77,14 +78,22 @@ export const Home = () => {
     }, []);
 
     return (
-        <div className="home">
-            <h1>Listar Situação Financeira</h1>
-            <p>Ano atual: {dataView.ano}</p>
-            <p>Mês atual: {dataView.mes}</p>
-            <button type="button" onClick={() => anterior()}>Anterior</button>
-            <button type="button" onClick={() => proximo()}>Próximo</button>
+      <Background>
+        <Container>
+            <ConteudoTitulo>
+                <Titulo>Listar Situação Financeira</Titulo>
+                <BotaoAcao>
+                    <ButtomSuccess>Cadastrar</ButtomSuccess>
+                </BotaoAcao>
+            </ConteudoTitulo>
 
-            <table>
+            <AnteriorProximo>
+                <ButtomPrimary type="button" onClick={() => anterior()}>Anterior</ButtomPrimary>
+                <span>{dataView.mes + "/" + dataView.ano}</span>
+                <ButtomPrimary type="button" onClick={() => proximo()}>Próximo</ButtomPrimary>
+            </AnteriorProximo>
+
+            <Table>
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -99,22 +108,23 @@ export const Home = () => {
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.nome}</td>
-                            <td>{item.tipo === 1 ? <p>Pagamento</p>: <p>Recebido</p>}</td>
+                            <td>{item.tipo === 1 ? <TextDanger>Pagamento</TextDanger> : <TextSuccess>Recebido</TextSuccess>}</td>
                             <td>{item.situacao}</td>
                             <td>{item.valor}</td>
                         </tr>
                     ))}
                 </tbody>
                 <tfoot>
-                    <tr>
-                        <td>Total</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>586.15</td>
-                    </tr>
+                  <tr>
+                      <td>Total</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>586.15</td>
+                  </tr>
                 </tfoot>
-            </table>
-        </div>
+            </Table>
+        </Container>
+        </Background>
     );
 };
