@@ -31,7 +31,7 @@ const Lancamentos = db.define('lancamentos', {
 });
 
 //Verificar se existe a tabela, não existindo a tabela é criado a mesma
-//Lancamentos.sync();
+Lancamentos.sync();
 
 //Verifica as alterações da tabela e realiza a mesma
 //Lancamentos.sync({ alter: true });
