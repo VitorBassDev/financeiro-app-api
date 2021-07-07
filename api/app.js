@@ -24,6 +24,24 @@ app.post('/cadastrar', async (req, res) => {
 });
 
 
+app.get('/listar', async (req, res) => {
+    // console.log(req.body)
+    await Lancamentos.findAll().then(function(lancamentos){
+        return res.json({
+            erro: false,
+            mensagem: "Lançamentos Cadastrados",
+            lancamentos
+        });
+        
+    }).catch(function(){
+        // console.log(req.body)
+        return res.status(400).json({
+            erro: true,
+            mensagem: "Erro: Lançamentos não Encontrados"
+        });
+    });
+});
+
 app.listen(8080, function(){
     console.log("Servidor iniciado na porta 8080: http://localhost:8080");
 });
