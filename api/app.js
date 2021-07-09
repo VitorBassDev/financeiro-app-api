@@ -4,7 +4,17 @@ const { Op } = require('sequelize');
 
 const Lancamentos = require('./database/models/Lancamentos');
 
+const cors = require('cors');
 app.use(express.json());
+
+// DIFINIÇÃO DE ACESSO COM O CORS
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT', POST, DELETE");
+    res.header("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type, Authorization");
+    app.use(cors());
+    next();
+})
 
 app.post('/cadastrar', async (req, res) => {
     // console.log(req.body)
